@@ -46,3 +46,32 @@ def test_post_with_no_data(db_connection, web_client):
         "Album(1, Pop Album 2019, 2019, 2)\n" \
         "Album(2, Hip-Hop Album 2021, 2021, 3)\n" \
         "Album(3, Jazz Album 2018, 2018, 4)" 
+    
+'''
+when i call GET /artists
+I get a list of artists back
+'''
+def test_get_artists(db_connection, web_client):
+    db_connection.seed("seeds/record_store.sql")
+    response = web_client.get("/artists")
+    assert response.status_code == 200
+    assert response.data.decode('utf-8') == "Pixies, ABBA, Taylor Swift, Nina Simone"
+
+"""
+When I call POST /artists with artist info
+That artist is now in the list in GET /artists
+"""
+
+def test_post_artist(db_connection, web_client):
+    db_connection.seed("seeds/record_store.sql")
+    post_response = web_client.post("/artists", data={
+        'name': 'Wild nothing',
+        'genre': 'Indie'
+    })
+
+    assert post_response.status_code == 200
+    assert post_response.data.decode('utf-8') == ""
+
+    get_response = web_client.get("/artists")
+    assert get_response.status_code == 200
+    assert get_response.data.decode('utf-8') == "Pixies, ABBA, Taylor Swift, Nina Simone, Wild nothing"

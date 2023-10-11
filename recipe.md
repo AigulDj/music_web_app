@@ -1,33 +1,29 @@
 # Single Table Design Recipe Template
 
-Tets-drive a route 'POST /albums' to create a new album
-```
+Test-drive a route GET /artists, which returns the list of artists:
+Request:
+GET /artists
+
+# Expected response (200 OK)
+Pixies, ABBA, Taylor Swift, Nina Simone
+
+
+Test-drive a route POST /artists, which creates a new artist in the database. Your test should verify the new artist is returned in the response of GET /artists.
 # Request:
-POST /albums
+POST /artists
 
 # With body parameters:
-title=Voyage
-release_year=2022
-artist_id=2
+name=Wild nothing
+genre=Indie
 
 # Expected response (200 OK)
 (No content)
-```
-Your test should assert that the new album is present in the list of records
-returned by GET /albums.
 
-## 1. Extract nouns from the user stories or specification
+# Then subsequent request:
+GET /artists
 
-```
-Nouns:
-
-album
-title
-release_year
-artist
-id
-```
-
+# Expected response (200 OK)
+Pixies, ABBA, Taylor Swift, Nina Simone, Wild nothing
 
 ## 2. Infer the Table Name and Columns
 
